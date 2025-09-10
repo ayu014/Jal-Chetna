@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jal Chetna - Administrator Dashboard</title>
+
+    <!-- Add favicon (tab icon) -->
+    <link rel="icon" type="image/png" href="Assests/Jalchetna-logo.png">
+    <link rel="shortcut icon" type="image/png" href="Assests/Jalchetna-logo.png">
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading Jal Chetna Dashboard</div>
+        <div class="loading-subtext">Please wait while we prepare your data...</div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="Assests/Jalchetna-logo.png" alt="Jal Chetna Logo" class="logo-image">
+                <h1>Jal Chetna</h1>
+            </div>
+            <nav class="header-nav">
+                <a href="home.html" class="nav-link">
+                    <i class="fa-solid fa-home"></i> Home
+                </a>
+                <button id="login-btn" class="login-button">
+                    <i class="fa-solid fa-user"></i> Login
+                </button>
+                <button id="logout-btn" class="login-button hidden">
+                    <i class="fa-solid fa-sign-out-alt"></i> Logout
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Login Section -->
+        <section id="login-section" class="login-section">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h2>Administrator Login</h2>
+                    <p>Access the Jal Chetna Dashboard</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter admin username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fa-solid fa-sign-in-alt"></i> Login to Dashboard
+                    </button>
+                </form>
+                <div class="login-hint">
+                    <p><i class="fa-solid fa-info-circle"></i> Login Credentials for Judges:</p>
+                    <p><strong>Username:</strong> admin</p>
+                    <p><strong>Password:</strong> admin</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="dashboard-section hidden">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h2><i class="fa-solid fa-chart-line"></i> Administrator Dashboard</h2>
+                <div class="header-info">
+                    <div class="state-selector">
+                        <label for="state-select"><i class="fa-solid fa-map-pin"></i> State:</label>
+                        <select id="state-select" class="state-dropdown">
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="rajasthan">Rajasthan</option>
+                        </select>
+                    </div>
+                    <span><i class="fa-solid fa-calendar-days"></i> Sept 10, 2025</span>
+                    <span><i class="fa-solid fa-user-shield"></i> Welcome, Admin</span>
+                </div>
+            </div>
+
+            <!-- Summary Stat Cards -->
+            <div id="summary-cards" class="summary-grid">
+                <!-- Cards will be populated by JS -->
+            </div>
+
+            <!-- Main Dashboard Layout -->
+            <div class="dashboard-main">
+                <!-- Left Column: Map and District Details -->
+                <div class="main-left">
+                    <div class="map-card card">
+                        <h4><i class="fa-solid fa-map-location-dot"></i> <span id="map-title">Maharashtra Districts</span></h4>
+                        <div id="map" class="map-container"></div>
+                    </div>
+                    <div id="details-panel" class="details-panel card">
+                        <h3><i class="fa-solid fa-arrow-pointer"></i> Select a district on the map to view details</h3>
+                        <p class="placeholder-text">Click on any district marker to see detailed groundwater information, current levels, and trends.</p>
+                    </div>
+                </div>
+
+                <!-- Right Column: Live Alerts and Forecast Chart -->
+                <div class="main-right">
+                    <div id="alerts-panel" class="alerts-panel card">
+                        <h4><i class="fa-solid fa-tower-broadcast"></i> Live Alerts & Detailed Information</h4>
+                        <ul id="alerts-list" class="alerts-list">
+                            <li class="no-alerts">Select a district to view alerts</li>
+                        </ul>
+                    </div>
+                    <div class="chart-panel card">
+                        <h4><i class="fa-solid fa-chart-line"></i> 7-Day Forecast Trend</h4>
+                        <canvas id="forecast-chart"></canvas>
+                        <div id="chart-placeholder" class="chart-placeholder">
+                            <i class="fa-solid fa-chart-area"></i>
+                            <p>Select a district to view forecast data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- External Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>
